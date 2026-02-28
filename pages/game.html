@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Oregon Trail | Game</title>
+    <link rel="stylesheet" href="/style.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "terminal": "/scripts/terminal.js"
+        }
+    }
+    </script>
+    <script type="module" src="/scripts/index.js"></script>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="game-title">The Oregon Trail</h1>
+        <div class="game-hud-card">
+            <div class="game-console">
+                <pre class="game-console-text" id="console-text"></pre>
+            </div>
+            <div class="game-bottom-row-container">
+                <div class="game-stats-container">
+                    <p class="game-stat-text" id="happiness-text">Happiness: 0%</p>
+                    <p class="game-stat-text" id="food-text">Food: 0lb</p>
+                    <p class="game-stat-text" id="days-text">Days: 0</p>
+                </div>
+                <div class="game-options-container">
+                    <p>Options</P>
+                </div>
+                <div class="game-player-list-container" id="player-list-holder">
+                    <p>Player1</p>
+                    <p>Player2</p>
+                    <p>Player3</p>
+                    <p>Player4</p>
+                </div>                
+            </div>
+        </div>
+    </div>
+</body>
+</html>

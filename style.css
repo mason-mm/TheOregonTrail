@@ -1,0 +1,179 @@
+/* Global */
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Menu */
+.menu-container {
+    background-color: rgb(246, 247, 196);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+}
+
+.menu-card {
+    background-color: rgba(173, 175, 140, 0.74);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    border: 2px solid black;
+
+    width: 60%;
+    height: 70%;
+}
+
+.menu-title {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 40px;
+
+    padding: 8px;
+    border: 2px solid black;
+
+    margin-top: 12vh;
+    margin-bottom: 15vh;
+}
+
+.menu-play-button {
+    display: inline-block;
+    padding: 18px 100px;
+    background-color: #ad8c1f;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+
+    min-width: none;
+    min-height: none;
+
+    width: auto;
+    height: auto;
+}
+
+/* Game */
+.game-container {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgb(246, 247, 196);
+}
+
+.game-title {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 40px;
+}
+
+.game-hud-card {
+    border: 3px solid black;
+    background-color: white;
+    margin-top: 1vh;
+
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 80vw;
+    height: 83vh;
+}
+
+/* Console */
+
+.game-console {
+    border: 2px solid black;
+    border-radius: 20px;
+    margin-top: 1vh;
+    background-color: rgb(220, 220, 220);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 60%;
+
+    flex: 1;
+}
+
+.game-console-text {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: large;
+
+    overflow: hidden;
+    white-space: pre-wrap;
+
+    line-height: 1.4em;
+
+    width: 80%;
+    height: 80%;
+}
+
+/* Bottom Row */
+
+.game-bottom-row-container {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+
+    width: 100%;
+
+    height: 180px;
+}
+
+/* Stats */
+
+.game-stats-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 15px;
+}
+
+.game-stat-text {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: clamp(0.8rem, 1vw, 1.5rem);
+}
+
+/* Options */
+.game-options-container {
+    flex: 5;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    height: 90%;
+
+    border: 2px solid gray;
+}
+
+.game-options-container p {
+    text-align: left;
+}
+
+/* Player List */
+.game-player-list-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    padding-right: 15px;
+}
