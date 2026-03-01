@@ -149,23 +149,28 @@ html, body {
 
 .game-stat-text {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: clamp(0.8rem, 1vw, 1.5rem);
+    font-size: clamp(0.8rem, 0.9vw, 1rem);
 }
 
 /* Options */
 .game-options-container {
     flex: 5;
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 
+    gap: 1vw;
     height: 90%;
 
     border: 2px solid gray;
 }
 
-.game-options-container p {
-    text-align: left;
+.game-options-button {
+    padding: 2px;
+    width: 12vw;
+    height: 10vh;
+    border-radius: 8px;
 }
 
 /* Player List */
@@ -176,4 +181,12 @@ html, body {
     align-items: flex-end;
     justify-content: center;
     padding-right: 15px;
+}
+
+.game-player-list-text {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.1rem;
+
+    margin-bottom: 5px;
+    margin-right: 2px;
 }

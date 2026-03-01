@@ -8,7 +8,10 @@
     <script type="importmap">
     {
         "imports": {
-            "terminal": "../scripts/terminal.js"
+            "terminal": "../scripts/terminal.js",
+            "stats": "../scripts/stats.js",
+            "players": "../scripts/players.js",
+            "options": "../scripts/options.js"
         }
     }
     </script>
@@ -23,18 +26,22 @@
             </div>
             <div class="game-bottom-row-container">
                 <div class="game-stats-container">
-                    <p class="game-stat-text" id="happiness-text">Happiness: 0%</p>
-                    <p class="game-stat-text" id="food-text">Food: 0lb</p>
-                    <p class="game-stat-text" id="days-text">Days: 0</p>
+                    <p class="game-stat-text" id="happiness-text"></p>
+                    <p class="game-stat-text" id="food-text"></p>
+                    <p class="game-stat-text" id="money-text"></p>
+                    <p class="game-stat-text" id="days-text"></p>
                 </div>
                 <div class="game-options-container">
-                    <p>Options</P>
+                    <button class="game-options-button" id="option-button1"></button>
+                    <button class="game-options-button" id="option-button2"></button>
+                    <button class="game-options-button" id="option-button3"></button>
+                    <button class="game-options-button" id="option-button4"></button>
                 </div>
-                <div class="game-player-list-container" id="player-list-holder">
-                    <p>Player1</p>
-                    <p>Player2</p>
-                    <p>Player3</p>
-                    <p>Player4</p>
+                <div class="game-player-list-container">
+                    <p class="game-player-list-text" id="game-player-list-player-1"></p>
+                    <p class="game-player-list-text" id="game-player-list-player-2"></p>
+                    <p class="game-player-list-text" id="game-player-list-player-3"></p>
+                    <p class="game-player-list-text" id="game-player-list-player-4"></p>
                 </div>                
             </div>
         </div>
