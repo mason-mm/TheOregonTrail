@@ -1,4 +1,6 @@
-let happiness = 100, food = 0, money = 0, day = 1; 
+import { print, clear } from "terminal";
+
+export let happiness = 100, food = 0, money = 0, day = 1; 
 
 export function setStat(stat, value) {
     switch (stat) {
@@ -28,4 +30,11 @@ export function updateStatsText() {
     document.getElementById("food-text").textContent      = `Food: ${food}lb`;
     document.getElementById("money-text").textContent     = `Money: ${money}$`;
     document.getElementById("days-text").textContent      = `Day: ${day}`;
+}
+
+export async function printStats() {
+    await print(`Happiness: ${happiness}`);
+    await print(`Food: ${food}`);
+    await print(`Money: ${money}`);
+    await print(`Days: ${day}`);
 }
