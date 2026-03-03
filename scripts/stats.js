@@ -32,13 +32,13 @@ export function addStat(stat, value) {
 export function updateStatsText() {
     document.getElementById("happiness-text").textContent = `Happiness: ${happiness}%`;
     document.getElementById("food-text").textContent      = `Food: ${food}lb`;
-    document.getElementById("money-text").textContent     = `Money: ${money}$`;
+    document.getElementById("money-text").textContent     = `Money: $${money}`;
     document.getElementById("days-text").textContent      = `Day: ${day}`;
 }
 
 export async function printStats() {
     await print(`Happiness: ${happiness}%`);
     await print(`Food: ${food}lb`);
-    await print(`Money: ${money}$`);
+    await print(`Money: $${money}`);
     await print(`Days: ${day}`);
 }

@@ -1,16 +1,16 @@
 export const events = [
     {
-        text: "One of your wagon wheels broke",
+        text: "One of your wagon wheels fell off",
         options: [
             {
-                text: "Fix it yourself",
+                text: "Take time to fix it correctly",
                 effects: {
                     days: 2
                 },
                 resultText: "You take 2 days to fix it (+2 days)"
             },
             {
-                text: "Quickly put it back on",
+                text: "Quickly rush and put it back on",
                 effects: {
                     days: 5
                 },
@@ -19,22 +19,22 @@ export const events = [
         ]
     },
     {
-        text: "Someone get bit by a rattlesnake",
+        text: "{name} got bit by a rattlesnake",
         options: [
             {
-                text: "Treat it",
+                text: "Treat it correctly",
                 effects: {
                     injurePlayer: true,
                     days: 2
                 },
-                resultText: "The treatment worked, they will be sick (+2 days)"
+                resultText: "The treatment worked, {name} will be sick (+2 days)"
             },
             {
                 text: "Leave it be",
                 effects: {
                     killPlayer: true
                 },
-                resultText: "They did not make it."
+                resultText: "{name} did not make it."
             }
         ]
     },
@@ -71,6 +71,7 @@ export const events = [
             {
                 text: "Hunt them down",
                 effects: {
+                    days: 4,
                     happiness: -20
                 },
                 resultText: "You spend days hunting them down but fail (+4 days, -10 happiness)"
@@ -78,22 +79,22 @@ export const events = [
         ]
     },
     {
-        text: "There was a rife accident",
+        text: "There was a rifle accident and {name} got hit",
         options: [
             {
-                text: "Stay and treat the person involved",
+                text: "Stay and treat {name}",
                 effects: {
                     injurePlayer: true,
                     days: 2
                 },
-                resultText: "You stay a few more days and treat the person, they are injured (+2 days)"
+                resultText: "You stay a few more days and treat {name}, they are injured (+2 days)"
             },
             {
-                text: "Throw a bandage on them",
+                text: "Give {name} a bandage and keep going",
                 effects: {
                     killPlayer: true
                 },
-                resultText: "They don't make it"
+                resultText: "{name} did not make it"
             }
         ]
     }

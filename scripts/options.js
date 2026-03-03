@@ -1,5 +1,5 @@
 import { addStat, printStats } from "stats";
-import { setPlayer, injurePlayer, killPlayer, getRandomAlivePlayerIndex, getAllPlayersDead } from "players"
+import { setPlayer, getPlayer, injurePlayer, killPlayer, getRandomAlivePlayerIndex, getAllPlayersDead } from "players"
 import { print, clear } from "terminal"
 import { events } from "events";
 
@@ -47,6 +47,7 @@ function chooseEvent() {
 }
 
 let currentEvent = null;
+let currentEventPlayerIndex = null;
 
 // Add event listeners for each button
 for (let i = 0; i < buttonElements.length; i++) {
@@ -78,16 +79,24 @@ async function handleOption(index) {
 
             applyEffects(selectedOption.effects);
 
-            const randomPlayer = getRandomAlivePlayerIndex();
+            const targetPlayer = currentEventPlayerIndex;
 
-            if (selectedOption.effects.injurePlayer && randomPlayer !== null)
-                injurePlayer(randomPlayer);
+            if (selectedOption.effects.injurePlayer && targetPlayer !== null)
+                injurePlayer(targetPlayer);
 
-            if (selectedOption.effects.killPlayer && randomPlayer !== null)
-                killPlayer(randomPlayer);
+            if (selectedOption.effects.killPlayer && targetPlayer !== null)
+                killPlayer(targetPlayer);
 
             clear();
-            await print(selectedOption.resultText);
+            
+            const resultText = selectedOption.resultText.replaceAll(
+                "{name}",
+                currentEventPlayerIndex !== null
+                    ? getPlayer(currentEventPlayerIndex).name
+                    : "They"
+            );
+
+            await print(resultText);
 
             setButtonContent(0, "Continue");
             setButtonContent(1, "");
@@ -154,10 +163,13 @@ export async function handleEvent() {
 
     clear();
 
-    await delay(4500);
+    await print("Traveling...");
+
+    await delay(1500);
 
     // Choose a random event
     currentEvent = chooseEvent();
+    currentEventPlayerIndex = getRandomAlivePlayerIndex();
 
     // Check if there are no events left
     if (currentEvent === null) {
@@ -170,12 +182,28 @@ export async function handleEvent() {
     buttonElements[1].disabled = true;
 
     // Update the buttons text
-    setButtonContent(0, currentEvent.options[0].text);
-    setButtonContent(1, currentEvent.options[1].text);
+    const playerName =
+        currentEventPlayerIndex !== null
+            ? getPlayer(currentEventPlayerIndex).name
+            : "Someone"
 
+    const option0Text = currentEvent.options[0].text.replaceAll("{name}", playerName);
+    const option1Text = currentEvent.options[1].text.replaceAll("{name}", playerName);
+
+    setButtonContent(0, option0Text);
+    setButtonContent(1, option1Text);
+        
     // Print the events message
     clear();
-    await print(currentEvent.text);
+
+    const eventText = currentEvent.text.replaceAll(
+        "{name}",
+        currentEventPlayerIndex !== null
+            ? getPlayer(currentEventPlayerIndex).name
+            : "Someone"
+    );
+
+    await print(eventText);
 
     // Enable all of the buttons
     buttonElements[0].disabled = false;
