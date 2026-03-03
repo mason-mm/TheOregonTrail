@@ -1,4 +1,4 @@
-import { addStat, printStats } from "stats";
+import { addStat, printStats, food } from "stats";
 import { setPlayer, getPlayer, injurePlayer, killPlayer,
          getRandomAlivePlayerIndex, getAllPlayersDead, getAlivePlayerListLength } from "players"
 import { print, clear } from "terminal"
@@ -7,11 +7,13 @@ import { events } from "events";
 // Buttons
 const buttonElements = [
     document.getElementById("option-button1"),
-    document.getElementById("option-button2")
+    document.getElementById("option-button2"),
+    document.getElementById("option-hunt-button")
 ];
 
 buttonElements[0].disabled = true;
 buttonElements[1].disabled = true;
+buttonElements[2].disabled = true;
 
 let buttonContents = [
     "",
@@ -20,7 +22,7 @@ let buttonContents = [
 
 function updateButtonText() {
     // Update the text content of every button
-    for (let i = 0; i < buttonElements.length; i++) {
+    for (let i = 0; i < 2; i++) {
         buttonElements[i].textContent = buttonContents[i];
     }
 }
@@ -50,12 +52,42 @@ function chooseEvent() {
 let currentEvent = null;
 let currentEventPlayerIndex = null;
 
+async function hunt() {
+    console.log("Hunting");
+    buttonElements[0].disabled = true;
+    buttonElements[1].disabled = true;
+    buttonElements[2].disabled = true;
+
+    clear();
+    await print("You hunt for two days...");
+
+    await delay(1500);
+
+    const rand = Math.floor(Math.random() * 3);
+    if (rand < 2) {
+        addStat("food", 25);
+        addStat("day", 2);
+        await print("Success! (+25 food, +2 days)");
+    } else {
+        addStat("day", 2);
+        await print("Failed! (+2 days)");
+    }
+
+    buttonElements[0].disabled = false;
+    buttonElements[1].disabled = false;
+}
+
 // Add event listeners for each button
-for (let i = 0; i < buttonElements.length; i++) {
+for (let i = 0; i < 2; i++) {
     buttonElements[i].addEventListener("click", () => {
         handleOption(i);
     });
 }
+
+// Hunt button
+buttonElements[2].addEventListener("click", async () => {
+    await hunt();
+});
 
 function applyEffects(effects) {
     // Go through every stat and update it
@@ -71,6 +103,7 @@ async function handleOption(index) {
     // Disable buttons
     buttonElements[0].disabled = true;
     buttonElements[1].disabled = true;
+    buttonElements[2].disabled = true;
 
     switch (gameState) {
         case "event":
@@ -103,6 +136,7 @@ async function handleOption(index) {
             setButtonContent(1, "");
 
             buttonElements[1].disabled = true;
+            buttonElements[2].disabled = true;
             break;
         case "result":
             gameState = "event";
@@ -119,6 +153,7 @@ async function handleOption(index) {
             setButtonContent(1, "");
 
             buttonElements[1].disabled = true;
+            buttonElements[2].disabled = true;
             break;
         case "quit":
             window.location.href = "../index.html"
@@ -141,6 +176,7 @@ async function handleEnd() {
     setButtonContent(1, "");
 
     buttonElements[1].disabled = true;
+    buttonElements[2].disabled = true;
 }
 
 async function handleDeath() {
@@ -156,12 +192,7 @@ async function handleDeath() {
     buttonElements[1].disabled = true;
 }
 
-export async function handleEvent() {
-    if (getAllPlayersDead()) {
-        await handleDeath();
-        return;
-    }
-
+async function handleTraveling() {
     clear();
 
     await print("Traveling...");
@@ -169,7 +200,43 @@ export async function handleEvent() {
     // Eat food
     addStat("food", -(10 * getAlivePlayerListLength()));
 
+    // Add days
+    addStat("day", 5);
+
+    for (let i = 0; i < 4; i++) {
+        const player = getPlayer[i];
+        if (player && player.health !== "Dead") {
+            // Check for players healed
+            if (player.health === "Injured" && player.timeInjured >= 3) {
+                setPlayer(i, player.name, "Well", 0);
+
+                await print(`${player.name} is no longer injured`);
+                continue;
+            }
+
+            setPlayer(i, player.name, player.health, player.timeInjured + 1);
+        }
+    }
+
+    // Check for starvation
+    if (food <= 5) {
+        let randIndex = getRandomAlivePlayerIndex();
+
+        await print(`${getPlayer(randIndex).name} has starved`);
+
+        injurePlayer(randIndex);
+    }
+
     await delay(1500);
+}
+
+export async function handleEvent() {
+    if (getAllPlayersDead()) {
+        await handleDeath();
+        return;
+    }
+
+    await handleTraveling();
 
     // Choose a random event
     currentEvent = chooseEvent();
@@ -184,6 +251,7 @@ export async function handleEvent() {
     // Disable all of the buttons
     buttonElements[0].disabled = true;
     buttonElements[1].disabled = true;
+    buttonElements[2].disabled = true;
 
     // Update the buttons text
     const playerName =
@@ -212,6 +280,7 @@ export async function handleEvent() {
     // Enable all of the buttons
     buttonElements[0].disabled = false;
     buttonElements[1].disabled = false;
+    buttonElements[2].disabled = false;
 }
 
 export function takeNames() {
@@ -221,6 +290,7 @@ export function takeNames() {
         // Hide option buttons
         buttonElements[0].style.display = "none";
         buttonElements[1].style.display = "none";
+        buttonElements[2].style.display = "none";
 
         const container = document.getElementById("game-name-entry-container");
         container.innerHTML = "";
@@ -257,6 +327,7 @@ export function takeNames() {
 
             buttonElements[0].style.display = "inline-block";
             buttonElements[1].style.display = "inline-block";
+            buttonElements[2].style.display = "inline-block";
 
             gameState = "event";
 

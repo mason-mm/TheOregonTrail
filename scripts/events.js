@@ -5,14 +5,16 @@ export const events = [
             {
                 text: "Take time to fix it correctly",
                 effects: {
-                    days: 2
+                    days: 2,
+                    food: -10
                 },
                 resultText: "You take 2 days to fix it (+2 days)"
             },
             {
                 text: "Quickly rush and put it back on",
                 effects: {
-                    days: 5
+                    days: 5,
+                    food: -25
                 },
                 resultText: "Your wagon breaks down further down the trail and needs to be fixed (+5 days)"
             }
@@ -25,7 +27,8 @@ export const events = [
                 text: "Treat it correctly",
                 effects: {
                     injurePlayer: true,
-                    days: 2
+                    days: 2,
+                    food: -10
                 },
                 resultText: "The treatment worked, {name} will be sick (+2 days)"
             },
@@ -44,7 +47,8 @@ export const events = [
             {
                 text: "Keep moving with the remaining oxen",
                 effects: {
-                    days: 3
+                    days: 3,
+                    food: -15
                 },
                 resultText: "The oxen get tired and need a break (+3 days)"
             },
@@ -72,6 +76,7 @@ export const events = [
                 text: "Hunt them down",
                 effects: {
                     days: 4,
+                    food: -20,
                     happiness: -20
                 },
                 resultText: "You spend days hunting them down but fail (+4 days, -10 happiness)"
@@ -85,7 +90,8 @@ export const events = [
                 text: "Stay and treat {name}",
                 effects: {
                     injurePlayer: true,
-                    days: 2
+                    days: 2,
+                    food: -10
                 },
                 resultText: "You stay a few more days and treat {name}, they are injured (+2 days)"
             },

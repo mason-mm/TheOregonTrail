@@ -1,8 +1,8 @@
 let players = [
-    { name: "None", health: "Well" },
-    { name: "None", health: "Well" },
-    { name: "None", health: "Well" },
-    { name: "None", health: "Well" }
+    { name: "None", health: "Well", timeInjured: 0 },
+    { name: "None", health: "Well", timeInjured: 0 },
+    { name: "None", health: "Well", timeInjured: 0 },
+    { name: "None", health: "Well", timeInjured: 0 }
 ];
 
 export function updatePlayerListText() {
@@ -38,9 +38,9 @@ export function updatePlayerListText() {
     }
 }
 
-export function setPlayer(index, name, health = "Well") {
+export function setPlayer(index, name, health = "Well", timeInjured = 0) {
     if (index >= 0 && index < players.length) {
-        players[index] = { "name": name, "health": health };
+        players[index] = { "name": name, "health": health, "timeInjured": timeInjured };
         updatePlayerListText();
     }
 }
