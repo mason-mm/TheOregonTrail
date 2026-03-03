@@ -1,5 +1,6 @@
 import { addStat, printStats } from "stats";
-import { setPlayer, getPlayer, injurePlayer, killPlayer, getRandomAlivePlayerIndex, getAllPlayersDead } from "players"
+import { setPlayer, getPlayer, injurePlayer, killPlayer,
+         getRandomAlivePlayerIndex, getAllPlayersDead, getAlivePlayerListLength } from "players"
 import { print, clear } from "terminal"
 import { events } from "events";
 
@@ -164,6 +165,9 @@ export async function handleEvent() {
     clear();
 
     await print("Traveling...");
+
+    // Eat food
+    addStat("food", -(10 * getAlivePlayerListLength()));
 
     await delay(1500);
 

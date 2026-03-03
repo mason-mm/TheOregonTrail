@@ -49,6 +49,16 @@ export function getPlayer(index) {
     return players[index];
 }
 
+export function getAlivePlayerListLength() {
+    let alive = 0;
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].health !== "Dead")
+            alive++;
+    }
+
+    return alive;
+}
+
 export function injurePlayer(index) {
     if (players[index].health === "Well")
         players[index].health = "Injured";
