@@ -48,3 +48,39 @@ export function setPlayer(index, name, health = "Well") {
 export function getPlayer(index) {
     return players[index];
 }
+
+export function injurePlayer(index) {
+    if (players[index].health === "Well")
+        players[index].health = "Injured";
+    else if (players[index].health === "Injured")
+        players[index].health = "Dead";
+
+    updatePlayerListText();
+}
+
+export function killPlayer(index) {
+    players[index].health = "Dead";
+    updatePlayerListText();
+}
+
+export function healPlayer(index) {
+    if (players[index].health === "Injured")
+        players[index].health = "Well";
+
+    updatePlayerListText();
+}
+
+export function getRandomAlivePlayerIndex() {
+    const alivePlayers = players
+        .map((p, i) => ({ player: p, index: i }))
+        .filter(p => p.player.health !== "Dead");
+
+    if (alivePlayers.length === 0) return null;
+
+    const rand = Math.floor(Math.random() * alivePlayers.length);
+    return alivePlayers[rand].index;
+}
+
+export function getAllPlayersDead() {
+    return players.every(p => p.health === "Dead");
+}

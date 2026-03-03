@@ -1,242 +1,100 @@
-import { setStat, printStats } from "stats";
-import { print, clear } from "terminal"
-
-// Buttons
-const buttonElements = [
-    document.getElementById("option-button1"),
-    document.getElementById("option-button2")
-];
-
-let buttonContents = [
-    "",
-    ""
-];
-
-function updateButtonText() {
-    // Update the text content of every button
-    for (let i = 0; i < buttonElements.length; i++) {
-        buttonElements[i].textContent = buttonContents[i];
-    }
-}
-
-function setButtonContent(index, text) {
-    // Set the button at the given index's content to the text and update the text
-    buttonContents[index] = text;
-    updateButtonText();
-}
-
-// Event and option handling
-// List all of the possible events and their properties
-const events = [
+export const events = [
     {
-        text: "First Event",
+        text: "One of your wagon wheels broke",
         options: [
             {
-                text: "First Event Option",
+                text: "Fix it yourself",
                 effects: {
-                    days: -2,
-                    health: 0,
-                    food: 0,
-                    player: "Dead"
+                    days: 2
                 },
-                resultText: "First Event Result Text"
+                resultText: "You take 2 days to fix it (+2 days)"
             },
             {
-                text: "First Event Option 2",
+                text: "Quickly put it back on",
                 effects: {
-                    days: 0,
-                    health: 0,
-                    food: 0
+                    days: 5
                 },
-                resultText: "First Event Result Text 2"
+                resultText: "Your wagon breaks down further down the trail and needs to be fixed (+5 days)"
             }
         ]
     },
     {
-        text: "Second Event",
+        text: "Someone get bit by a rattlesnake",
         options: [
             {
-                text: "Second Event Option",
+                text: "Treat it",
                 effects: {
-                    days: -2,
-                    health: 0,
-                    food: 0
+                    injurePlayer: true,
+                    days: 2
                 },
-                resultText: "Second Event Result Text"
+                resultText: "The treatment worked, they will be sick (+2 days)"
             },
             {
-                text: "Second Event Option 2",
+                text: "Leave it be",
                 effects: {
-                    days: 0,
-                    health: 0,
-                    food: 0
+                    killPlayer: true
                 },
-                resultText: "Second Event Result Text 2"
+                resultText: "They did not make it."
             }
         ]
     },
     {
-        text: "Second Event",
+        text: "One of your oxen ran away",
         options: [
             {
-                text: "Second Event Option",
+                text: "Keep moving with the remaining oxen",
                 effects: {
-                    days: -2,
-                    health: 0,
-                    food: 0
+                    days: 3
                 },
-                resultText: "Second Event Result Text"
+                resultText: "The oxen get tired and need a break (+3 days)"
             },
             {
-                text: "Second Event Option 2",
+                text: "Take an oxen from another group",
                 effects: {
-                    days: 0,
-                    health: 0,
-                    food: 0
+                    happiness: -20
                 },
-                resultText: "Second Event Result Text 2"
+                resultText: "They did not like that (-20 happiness)"
             }
         ]
     },
     {
-        text: "Second Event",
+        text: "You were robbed while sleeping",
         options: [
             {
-                text: "Second Event Option",
+                text: "Keep going",
                 effects: {
-                    days: -2,
-                    health: 0,
-                    food: 0
+                    happiness: -10,
+                    food: -10
                 },
-                resultText: "Second Event Result Text"
+                resultText: "You keep going with less things (-10 food, -10 happiness)"
             },
             {
-                text: "Second Event Option 2",
+                text: "Hunt them down",
                 effects: {
-                    days: 0,
-                    health: 0,
-                    food: 0
+                    happiness: -20
                 },
-                resultText: "Second Event Result Text 2"
+                resultText: "You spend days hunting them down but fail (+4 days, -10 happiness)"
+            }
+        ]
+    },
+    {
+        text: "There was a rife accident",
+        options: [
+            {
+                text: "Stay and treat the person involved",
+                effects: {
+                    injurePlayer: true,
+                    days: 2
+                },
+                resultText: "You stay a few more days and treat the person, they are injured (+2 days)"
+            },
+            {
+                text: "Throw a bandage on them",
+                effects: {
+                    killPlayer: true
+                },
+                resultText: "They don't make it"
             }
         ]
     }
 ];
-
-function chooseEvent() {
-    // Check if there are no events left
-    if (events.length === 0) {
-        return null;
-    }
-
-    // Get a random index and return it while deleting it from the array to not reuse events
-    const randNum = Math.floor(Math.random() * events.length);
-    return events.splice(randNum, 1)[0];
-}
-
-let currentEvent = null;
-
-// Add event listeners for each button
-for (let i = 0; i < buttonElements.length; i++) {
-    buttonElements[i].addEventListener("click", () => {
-        handleOption(i);
-    });
-}
-
-function applyEffects(effects) {
-    // Go through every stat and update it
-    if (effects.days !== undefined) setStat("day", effects.days);
-    if (effects.food !== undefined) setStat("food", effects.food);
-    if (effects.money !== undefined) setStat("money", effects.money);
-    if (effects.happiness !== undefined) setStat("happiness", effects.happiness);
-    if (effects.player !== undefined) {
-        // TODO: Apply the effect to a random player
-    }
-}
-
-let gameState = "event";
-
-async function handleOption(index) {
-    // Disable buttons
-    buttonElements[0].disabled = true;
-    buttonElements[1].disabled = true;
-
-    switch (gameState) {
-        case "event":
-            gameState = "result";
-
-            const selectedOption = currentEvent.options[index];
-
-            applyEffects(selectedOption.effects);
-
-            clear();
-            await print(selectedOption.resultText);
-
-            setButtonContent(0, "Continue");
-            setButtonContent(1, "");
-
-            buttonElements[1].disabled = true;
-            break;
-        case "result":
-            gameState = "event";
-            await handleEvent();
-            break;
-        case "end":
-            gameState = "quit";
-
-            clear();
-            await print("Final Stats:\n");
-            await printStats();
-
-            setButtonContent(0, "Quit");
-            setButtonContent(1, "");
-
-            buttonElements[1].disabled = true;
-            break;
-        case "quit":
-            window.location.href = "../index.html"
-            break;
-        default:
-            console.error("Game state not found");
-    }
-
-    // Only Enable the continue button
-    buttonElements[0].disabled = false;
-}
-
-export async function handleEvent() {
-    // Choose a random event
-    currentEvent = chooseEvent();
-
-    // Check if there are no events left
-    if (currentEvent === null) {
-        // Setup the end screen text
-        clear();
-        await print("Congrats, You have reached Oregon!");
-
-        gameState = "end";
-
-        setButtonContent(0, "View Final Stats");
-        setButtonContent(1, "");
-
-        buttonElements[1].disabled = true;
-
-        return;
-    }
-
-    // Disable all of the buttons
-    buttonElements[0].disabled = true;
-    buttonElements[1].disabled = true;
-
-    // Update the buttons text
-    setButtonContent(0, currentEvent.options[0].text);
-    setButtonContent(1, currentEvent.options[1].text);
-
-    // Print the events message
-    clear();
-    await print(currentEvent.text);
-
-    // Enable all of the buttons
-    buttonElements[0].disabled = false;
-    buttonElements[1].disabled = false;
-}

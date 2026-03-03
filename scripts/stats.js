@@ -2,19 +2,23 @@ import { print, clear } from "terminal";
 
 export let happiness = 100, food = 0, money = 0, day = 1; 
 
-export function setStat(stat, value) {
+export function addStat(stat, value) {
     switch (stat) {
         case "happiness":
-            happiness = value;
+            happiness += value;
+            if (happiness <= 0) happiness = 0;
             break;
         case "food":
-            food = value;
+            food += value;
+            if (food <= 0) food = 0;
             break;
         case "money":
-            money = value;
+            money += value;
+            if (money <= 0) money = 0;
             break;
         case "day":
-            day = value;
+            day += value;
+            if (day <= 0) day = 0;
             break;
         default:
             console.error("Stat not found");
@@ -33,8 +37,8 @@ export function updateStatsText() {
 }
 
 export async function printStats() {
-    await print(`Happiness: ${happiness}`);
-    await print(`Food: ${food}`);
-    await print(`Money: ${money}`);
+    await print(`Happiness: ${happiness}%`);
+    await print(`Food: ${food}lb`);
+    await print(`Money: ${money}$`);
     await print(`Days: ${day}`);
 }

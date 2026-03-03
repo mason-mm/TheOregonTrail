@@ -1,5 +1,7 @@
 let maxLines = 0;
 
+const typingSpeed = 85;
+
 function updateMaxLines() {
     const textElement = document.getElementById("console-text");
     if (!textElement) return;
@@ -15,7 +17,7 @@ function updateMaxLines() {
 window.addEventListener("resize", updateMaxLines);
 window.addEventListener("load", updateMaxLines);
 
-export async function print(msg, typingSpeed = 50) {
+export async function print(msg) {
     const textElement = document.getElementById("console-text");
 
     return new Promise((resolve) => {
