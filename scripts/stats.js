@@ -1,6 +1,6 @@
 import { print, clear } from "terminal";
 
-export let happiness = 100, food = 0, money = 200, day = 1, hasBandage = false;
+export let happiness = 100, food = 0, money = 400, day = 1, hasBandage = false;
 
 export function addStat(stat, value) {
     switch (stat) {

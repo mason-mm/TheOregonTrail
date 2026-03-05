@@ -375,7 +375,7 @@ async function openShop() {
         gameState = "shop";
         const shopItems = {
             food: { cost: 40, stat: "food", amount: 90, label: "food" },
-            cloths: { cost: 15, stat: "happiness", amount: 10, label: "cloths" },
+            clothes: { cost: 15, stat: "happiness", amount: 10, label: "clothes" },
             bandage: { cost: 80, stat: "hasBandage", amount: 1, label: "bandage" }
         };
 
@@ -418,7 +418,7 @@ async function openShop() {
 
         await print("The following items are in stock:")
         await print("[food] ($40, +90 food)");
-        await print("[cloths] ($15, +10% happiness)");
+        await print("[clothes] ($15, +10% happiness)");
         await print("[bandage] ($80, +bandage)");
 
         inputBox.disabled = false;
