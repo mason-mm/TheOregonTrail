@@ -150,6 +150,7 @@ html, body {
 .game-stat-text {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: clamp(0.8rem, 0.9vw, 1rem);
+    margin-top: 0.6vh;
 }
 
 /* Options */
@@ -176,6 +177,17 @@ html, body {
 
 .game-options-hunt-button {
     width: 7vw;
+    height: 8vh;
+}
+
+/* Shop */
+.game-shop-input {
+    width: 15vw;
+    height: 8vh;
+}
+
+.game-shop-buy-button {
+    width: 12vw;
     height: 8vh;
 }
 

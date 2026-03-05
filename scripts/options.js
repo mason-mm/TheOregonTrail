@@ -1,4 +1,4 @@
-import { addStat, printStats, food } from "stats";
+import { addStat, printStats, food, money, happiness, hasBandage } from "stats";
 import { setPlayer, getPlayer, injurePlayer, killPlayer,
          getRandomAlivePlayerIndex, getAllPlayersDead, getAlivePlayerListLength } from "players"
 import { print, clear } from "terminal"
@@ -89,12 +89,13 @@ buttonElements[2].addEventListener("click", async () => {
     await hunt();
 });
 
-function applyEffects(effects) {
+async function applyEffects(effects) {
     // Go through every stat and update it
     if (effects.days !== undefined) addStat("day", effects.days);
     if (effects.food !== undefined) addStat("food", effects.food);
     if (effects.money !== undefined) addStat("money", effects.money);
     if (effects.happiness !== undefined) addStat("happiness", effects.happiness);
+    if (effects.openShop !== undefined) { await openShop(); return "openShop" };
 }
 
 let gameState = "event";
@@ -111,7 +112,11 @@ async function handleOption(index) {
 
             const selectedOption = currentEvent.options[index];
 
-            applyEffects(selectedOption.effects);
+            if (await applyEffects(selectedOption.effects) === "openShop") {
+                handleEvent();
+                return;
+            }
+            
 
             const targetPlayer = currentEventPlayerIndex;
 
@@ -164,6 +169,26 @@ async function handleOption(index) {
 
     // Only Enable the continue button
     buttonElements[0].disabled = false;
+}
+
+async function checkForBandage() {
+    if (hasBandage) {
+        let healablePlayer = null;
+        for (let i = 0; i < 3; i++) {
+            if (getPlayer(i).health === "Injured") {
+                healablePlayer = i;
+                break;
+            }
+        }
+
+        if (healablePlayer !== null) {
+            const player = getPlayer(healablePlayer);
+
+            setPlayer(healablePlayer,  player.name, "Well", player.timeInjured);
+            await print(`You use your bandage and heal ${player.name}`);
+            addStat("hasBandageFalse");
+        }
+    }
 }
 
 async function handleEnd() {
@@ -222,10 +247,17 @@ async function handleTraveling() {
     if (food <= 5) {
         let randIndex = getRandomAlivePlayerIndex();
 
-        await print(`${getPlayer(randIndex).name} has starved`);
+        // Check if to print hungry or starved
+        if (getPlayer(randIndex).health === "Injured") {
+            await print(`${getPlayer(randIndex).name} has starved`);
+        } else {
+            await print(`${getPlayer(randIndex).name} is hungry`);
+        }
 
         injurePlayer(randIndex);
     }
+
+    await checkForBandage();
 
     await delay(1500);
 }
@@ -283,7 +315,7 @@ export async function handleEvent() {
     buttonElements[2].disabled = false;
 }
 
-export function takeNames() {
+export async function takeNames() {
     return new Promise((resolve) => {
         gameState = "naming";
 
@@ -313,7 +345,7 @@ export function takeNames() {
         doneButton.textContent = "Done";
         container.appendChild(doneButton);
 
-        doneButton.addEventListener("click", () => {
+        doneButton.addEventListener("click", async () => {
             for (let i = 0; i < inputs.length; i++) {
                 const name = inputs[i].value.trim();
                 if (name === "") {
@@ -329,9 +361,130 @@ export function takeNames() {
             buttonElements[1].style.display = "inline-block";
             buttonElements[2].style.display = "inline-block";
 
+            await openShop();
+
             gameState = "event";
 
             resolve();
         });
+    });
+}
+
+async function openShop() {
+    return new Promise ( async (resolve) => {
+        gameState = "shop";
+        const shopItems = {
+            food: { cost: 40, stat: "food", amount: 90, label: "food" },
+            cloths: { cost: 15, stat: "happiness", amount: 10, label: "cloths" },
+            bandage: { cost: 80, stat: "hasBandage", amount: 1, label: "bandage" }
+        };
+
+        buttonElements[0].style.display = "none";
+        buttonElements[1].style.display = "none";
+        buttonElements[2].style.display = "none";
+        
+        const container = document.getElementById("game-options-container");
+
+        // Add the input box
+        const inputBox = document.createElement("input");
+        inputBox.type = "text";
+        inputBox.classList.add("game-shop-input");
+
+        container.appendChild(inputBox);
+        inputBox.disabled = true;
+
+        // Add the buy button
+        const buyButton = document.createElement("button");
+        buyButton.classList.add("game-shop-buy-button");
+        buyButton.textContent = "buy";
+        container.appendChild(buyButton);
+        buyButton.disabled = true;
+
+        // Add the continue button
+        const continueButton = document.createElement("button");
+        continueButton.classList.add("game-shop-continue-button");
+        continueButton.textContent = "Continue";
+        container.appendChild(continueButton);
+        continueButton.disabled = true;
+
+        clear();
+        await print("Welcome to the shop.\n");
+
+        await print("You can buy as many items as you want as long as you have enough money.\n");
+
+        await print(`You have $${money}`)
+
+        await print("Enter the words in brackets to choose what you want to buy.\n");
+
+        await print("The following items are in stock:")
+        await print("[food] ($40, +90 food)");
+        await print("[cloths] ($15, +10% happiness)");
+        await print("[bandage] ($80, +bandage)");
+
+        inputBox.disabled = false;
+        buyButton.disabled = false;
+        continueButton.disabled = false;
+        
+        buyButton.addEventListener("click", async () => {
+            const item = inputBox.value.trim();
+            if (item === "") {
+                alert("You must input an item to buy!");
+                return;
+            }
+            
+            const normalizedItem = item.toLowerCase();
+            const selectedItem = shopItems[normalizedItem];
+
+            if (!selectedItem) {
+                await print(`"${item}" is not sold here.`);
+                inputBox.value = "";
+                return;
+            }
+
+            if (money < selectedItem.cost) {
+                await print(`Not enough money for ${selectedItem.label}.`);
+                inputBox.value = "";
+                return;
+            }
+
+            if (selectedItem.stat === "hasBandage" && hasBandage) {
+                await print("You already have a bandage.");
+                inputBox.value = "";
+                return;
+            }
+
+            if (selectedItem.stat === "happiness" && happiness > 100) {
+                await print("You already have full happiness");
+                inputBox.value = "";
+                return;
+            }
+
+            inputBox.disabled = true;
+            buyButton.disabled = true;
+            continueButton.disabled = true;
+
+            addStat("money", -selectedItem.cost);
+            addStat(selectedItem.stat, selectedItem.amount);
+            await print(`Bought ${selectedItem.label} (-$${selectedItem.cost}).`);
+            inputBox.value = "";
+
+            inputBox.disabled = false;
+            buyButton.disabled = false;
+            continueButton.disabled = false;
+        });
+
+        continueButton.addEventListener("click", () => {
+            // Clean up
+            inputBox.style.display = "none";
+            buyButton.style.display = "none";
+            continueButton.style.display = "none";
+
+            buttonElements[0].style.display = "inline-block";
+            buttonElements[1].style.display = "inline-block";
+            buttonElements[2].style.display = "inline-block";
+
+            gameState = "event";
+            resolve();
+        })
     });
 }

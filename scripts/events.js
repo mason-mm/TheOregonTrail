@@ -103,5 +103,23 @@ export const events = [
                 resultText: "{name} did not make it"
             }
         ]
+    },
+    {
+        text: "You find a merchent",
+        options: [
+            {
+                text: "Open the shop",
+                effects: {
+                    openShop: true
+                },
+                resultText: "You open the shop"
+            },
+            {
+                text: "Skip",
+                effects: {
+                },
+                resultText: "You skip opening the shop"
+            }
+        ]
     }
 ];
