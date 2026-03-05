@@ -2,7 +2,7 @@ import { addStat, printStats, food, day, money, happiness, hasBandage } from "st
 import { setPlayer, getPlayer, injurePlayer, killPlayer,
          getRandomAlivePlayerIndex, getAllPlayersDead, getAlivePlayerListLength } from "players"
 import { print, clear } from "terminal"
-import { events } from "events";
+import { events, usedEvents } from "events";
 
 // Buttons
 const buttonElements = [
@@ -46,7 +46,10 @@ function chooseEvent() {
 
     // Get a random index and return it while deleting it from the array to not reuse events
     const randNum = Math.floor(Math.random() * events.length);
-    return events.splice(randNum, 1)[0];
+    const event = events.splice(randNum, 1)[0];
+
+    usedEvents.push(event);
+    return event;
 }
 
 let currentEvent = null;
@@ -154,6 +157,16 @@ async function handleOption(index) {
             await print("Final Stats:\n");
             await printStats();
 
+            await print("\nUsed events:\n");
+            for (let i = 0; i < usedEvents.length; i++) {
+                await print(`${usedEvents[i].text}`);
+            }
+
+            await print("\nUnused events:\n");
+            for (let i = 0; i < events.length; i++) {
+                await print(`${events[i].text}`);
+            }
+
             setButtonContent(0, "Quit");
             setButtonContent(1, "");
 
@@ -223,7 +236,7 @@ async function handleTraveling() {
     await print("Traveling...");
 
     // Eat food
-    addStat("food", -(10 * getAlivePlayerListLength()));
+    addStat("food", -(2 * getAlivePlayerListLength()));
 
     // Add days
     addStat("day", 5);
@@ -269,6 +282,7 @@ export async function handleEvent() {
         handleEnd();
         return;
     }
+    
 
     eventsRun++;
     
@@ -278,6 +292,11 @@ export async function handleEvent() {
     }
 
     await handleTraveling();
+
+    if (getAllPlayersDead()) {
+        handleDeath();
+        return;
+    }
 
     // Choose a random event
     currentEvent = chooseEvent();

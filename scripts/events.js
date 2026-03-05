@@ -416,3 +416,5 @@ export const events = [
         ]
     }
 ];
+
+export let usedEvents = [];
