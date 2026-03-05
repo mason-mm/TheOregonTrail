@@ -191,6 +191,11 @@ html, body {
     height: 8vh;
 }
 
+.game-shop-continue-button {
+    width: 12vw;
+    height: 6vh;
+}
+
 /* Player Name Inputs */
 .game-name-input {
     margin-bottom: 8px;

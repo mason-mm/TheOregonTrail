@@ -1,4 +1,4 @@
-import { addStat, printStats, food, money, happiness, hasBandage } from "stats";
+import { addStat, printStats, food, day, money, happiness, hasBandage } from "stats";
 import { setPlayer, getPlayer, injurePlayer, killPlayer,
          getRandomAlivePlayerIndex, getAllPlayersDead, getAlivePlayerListLength } from "players"
 import { print, clear } from "terminal"
@@ -262,9 +262,18 @@ async function handleTraveling() {
     await delay(1500);
 }
 
+let eventsRun = 0;
+
 export async function handleEvent() {
+    if (eventsRun > 10) {
+        handleEnd();
+        return;
+    }
+
+    eventsRun++;
+    
     if (getAllPlayersDead()) {
-        await handleDeath();
+        handleDeath();
         return;
     }
 
@@ -299,6 +308,8 @@ export async function handleEvent() {
         
     // Print the events message
     clear();
+
+    await print(`Day ${day}`);
 
     const eventText = currentEvent.text.replaceAll(
         "{name}",

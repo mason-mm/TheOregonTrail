@@ -1,6 +1,6 @@
 import { print, clear } from "terminal";
 
-export let happiness = 100, food = 0, money = 400, day = 1, hasBandage = false;
+export let happiness = 100, food = 0, money = 200, day = 1, hasBandage = false;
 
 export function addStat(stat, value) {
     switch (stat) {
@@ -43,7 +43,7 @@ export function updateStatsText() {
     document.getElementById("food-text").textContent      = `Food: ${food}lb`;
     document.getElementById("money-text").textContent     = `Money: $${money}`;
     document.getElementById("days-text").textContent      = `Day: ${day}`;
-    document.getElementById("bandage-text").textContent   = `Bandage: ${hasBandage}`;
+    document.getElementById("bandage-text").textContent   = `Bandage: ${hasBandage ? 1 : 0} (max 1)`;
 }
 
 export async function printStats() {
@@ -51,5 +51,5 @@ export async function printStats() {
     await print(`Food: ${food}lb`);
     await print(`Money: $${money}`);
     await print(`Days: ${day}`);
-    await print(`Bandage: ${hasBandage}`);
+    await print(`Bandage: ${hasBandage ? 1 : 0}`);
 }

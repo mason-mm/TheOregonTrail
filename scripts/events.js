@@ -8,14 +8,15 @@ export const events = [
                 text: "Stay and treat {name}",
                 effects: {
                     days: 4,
-                    food: 30
+                    food: -30
                 },
-                resultText: "{name} made it out alive (+4 days, +30 food)"
+                resultText: "{name} made it out alive (+4 days, -30 food)"
             },
             {
                 text: "Keep going without treating {name}",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} did not make it"
             }
@@ -28,14 +29,15 @@ export const events = [
                 text: "Stay and treat {name}",
                 effects: {
                     days: 4,
-                    food: 30
+                    food: -30
                 },
-                resultText: "{name} made it out alive (+4 days, +30 food)"
+                resultText: "{name} made it out alive (+4 days, -30 food)"
             },
             {
                 text: "Keep going without treating {name}",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} did not make it"
             }
@@ -48,14 +50,15 @@ export const events = [
                 text: "Stay and treat {name}",
                 effects: {
                     days: 4,
-                    food: 30
+                    food: -30
                 },
-                resultText: "{name} made it out alive (+4 days, +30 food)"
+                resultText: "{name} made it out alive (+4 days, -30 food)"
             },
             {
                 text: "Keep going without treating {name}",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} did not make it"
             }
@@ -68,14 +71,15 @@ export const events = [
                 text: "Stay and treat {name}",
                 effects: {
                     days: 4,
-                    food: 30
+                    food: -30
                 },
-                resultText: "{name} made it out alive (+4 days, +30 food)"
+                resultText: "{name} made it out alive (+4 days, -30 food)"
             },
             {
                 text: "Keep going without treating {name}",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} did not make it"
             }
@@ -89,14 +93,15 @@ export const events = [
                 text: "Stay and treat {name}",
                 effects: {
                     days: 4,
-                    food: 30
+                    food: -30
                 },
-                resultText: "{name} made it out alive (+4 days, +30 food)"
+                resultText: "{name} made it out alive (+4 days, -30 food)"
             },
             {
                 text: "Keep going without treating {name}",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} did not make it"
             }
@@ -110,9 +115,9 @@ export const events = [
                 text: "Stay and treat {name}",
                 effects: {
                     days: 4,
-                    food: 30
+                    food: -30
                 },
-                resultText: "{name} made it out alive (+4 days, +30 food)"
+                resultText: "{name} made it out alive (+4 days, -30 food)"
             },
             {
                 text: "Keep going without treating {name}",
@@ -130,9 +135,9 @@ export const events = [
                 text: "Stay and treat {name}",
                 effects: {
                     days: 4,
-                    food: 30
+                    food: -30
                 },
-                resultText: "{name} made it out alive (+4 days, +30 food)"
+                resultText: "{name} made it out alive (+4 days, -30 food)"
             },
             {
                 text: "Keep going without treating {name}",
@@ -150,9 +155,9 @@ export const events = [
                 text: "Stay and treat {name}",
                 effects: {
                     days: 4,
-                    food: 30
+                    food: -30
                 },
-                resultText: "{name} made it out alive (+4 days, +30 food)"
+                resultText: "{name} made it out alive (+4 days, -30 food)"
             },
             {
                 text: "Keep going without treating {name}",
@@ -170,9 +175,9 @@ export const events = [
                 text: "Stay and treat {name}",
                 effects: {
                     days: 4,
-                    food: 30
+                    food: -30
                 },
-                resultText: "{name} made it out alive (+4 days, +30 food)"
+                resultText: "{name} made it out alive (+4 days, -30 food)"
             },
             {
                 text: "Keep going without treating {name}",
@@ -229,7 +234,8 @@ export const events = [
             {
                 text: "Float the wagon across",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "You made it across but {name} drowned"
             },
@@ -249,7 +255,8 @@ export const events = [
             {
                 text: "Try to control them",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} was crushed by an ox"
             },
@@ -276,7 +283,8 @@ export const events = [
             {
                 text: "Quickly help everyone up and keep going",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} was hurt the most and died"
             }
@@ -289,14 +297,16 @@ export const events = [
             {
                 text: "Spend 2 days treating them",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "You try to save them but in the end they do not make it"
             },
             {
                 text: "Quickly help them and keep going",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} has died"
             }
@@ -316,7 +326,8 @@ export const events = [
             {
                 text: "Stay on the trail and endure it",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} was struck by lightning and died"
             }
@@ -335,7 +346,8 @@ export const events = [
             {
                 text: "Stay on the trail and endure it",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} was hit by debris and died"
             }
@@ -354,7 +366,8 @@ export const events = [
             {
                 text: "Stay on the trail and endure it",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} was hit in the head by hail and died"
             }
@@ -373,7 +386,8 @@ export const events = [
             {
                 text: "Keep moving",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} got frostbite and died"
             }
@@ -394,7 +408,8 @@ export const events = [
             {
                 text: "Keep moving",
                 effects: {
-                    killPlayer: true
+                    killPlayer: true,
+                    happiness: -10
                 },
                 resultText: "{name} suffered heatstroke and died"
             }

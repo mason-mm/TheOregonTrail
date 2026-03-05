@@ -1,6 +1,6 @@
 let maxLines = 0;
 
-const typingSpeed = 50;
+const typingSpeed = 35;
 
 function updateMaxLines() {
     const textElement = document.getElementById("console-text");
